@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas Hang động Tiền sử Hòa Bình — ArchaeoNova</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --shadow:#1C1814;       /* cave shadow */
+    --shadow-2:#2A231C;     /* trench wall */
+    --limestone:#E8E1D2;    /* main surface */
+    --bone:#F4EFE4;         /* cards */
+    --bone-2:#FBF8F1;
+    --ochre:#A8472A;        /* thổ hoàng — burial ochre, the accent */
+    --ochre-soft:#C9714E;
+    --lichen:#6E7A55;       /* limestone lichen — secondary */
+    --ash:#8A8175;          /* strata grey */
+    --ash-2:#B5AD9F;
+    --ink:#27201A;
+    --ink-soft:#5A5046;
+    --line:rgba(39,32,26,.14);
+    --line-d:rgba(244,239,228,.16);
+    --maxw:1180px;
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{
+    margin:0;background:var(--limestone);color:var(--ink);
+    font-family:"Be Vietnam Pro",system-ui,sans-serif;
+    font-weight:400;line-height:1.65;-webkit-font-smoothing:antialiased;
+    font-size:17px;
+  }
+  h1,h2,h3,h4{font-family:"Fraunces",Georgia,serif;font-weight:600;line-height:1.12;margin:0;letter-spacing:-.01em}
+  p{margin:0 0 1rem}
+  a{color:inherit}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .mono{font-family:"JetBrains Mono",monospace;font-weight:500;letter-spacing:.02em}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ochre);font-weight:500}
+  .eyebrow.on-dark{color:var(--ochre-soft)}
+
+  /* ---- strata divider: the recurring signature ---- */
+  .strata{height:7px;width:100%;display:flex}
+  .strata i{flex:1;display:block}
+  .strata i:nth-child(1){background:var(--ash-2)}
+  .strata i:nth-child(2){background:var(--lichen)}
+  .strata i:nth-child(3){background:var(--ochre)}
+  .strata i:nth-child(4){background:var(--shadow-2)}
+  .strata i:nth-child(5){background:var(--ash)}
+
+  /* ---- nav ---- */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(28,24,20,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line-d)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;color:var(--bone)}
+  .brand{display:flex;align-items:center;gap:11px;font-family:"Fraunces";font-weight:600;font-size:1.05rem;letter-spacing:-.01em}
+  .brand .dot{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 32% 30%,var(--ochre-soft),var(--ochre) 60%,#6e2c18);flex:none;box-shadow:0 0 0 3px rgba(168,71,42,.18)}
+  nav.links{display:flex;gap:26px}
+  nav.links a{font-family:"Be Vietnam Pro";font-size:.82rem;font-weight:500;text-decoration:none;color:var(--bone);opacity:.78;transition:opacity .2s}
+  nav.links a:hover{opacity:1}
+  .nav-toggle{display:none}
+
+  /* ---- hero ---- */
+  .hero{background:var(--shadow);color:var(--bone);position:relative;overflow:hidden}
+  .hero .wrap{display:grid;grid-template-columns:1.35fr .9fr;gap:48px;align-items:center;padding-top:84px;padding-bottom:84px}
+  .hero h1{font-size:clamp(2.6rem,5.2vw,4.5rem);font-weight:600;letter-spacing:-.022em}
+  .hero h1 em{font-style:italic;color:var(--ochre-soft)}
+  .hero .lede{color:#D8D0C2;font-size:1.05rem;max-width:42ch;margin-top:22px}
+  .hero .sub-en{font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.06em;color:var(--ash-2);margin-top:14px;text-transform:none}
+  .hero-stats{display:flex;gap:30px;margin-top:38px;flex-wrap:wrap}
+  .hero-stats .s b{font-family:"Fraunces";font-size:1.9rem;font-weight:600;display:block;color:var(--bone)}
+  .hero-stats .s span{font-size:.74rem;color:var(--ash-2);font-family:"JetBrains Mono";letter-spacing:.04em}
+
+  /* trench column graphic */
+  .trench{border:1px solid var(--line-d);border-radius:var(--r);overflow:hidden;background:var(--shadow-2)}
+  .trench .scap{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-family:"JetBrains Mono";font-size:.66rem;letter-spacing:.1em;color:var(--ash-2);text-transform:uppercase;border-bottom:1px solid var(--line-d)}
+  .layer{display:flex;align-items:center;gap:12px;padding:0 14px;position:relative}
+  .layer .depth{font-family:"JetBrains Mono";font-size:.64rem;color:var(--ash-2);width:46px;flex:none;opacity:.85}
+  .layer .band{flex:1;height:100%;border-radius:3px}
+  .layer .lbl{position:absolute;right:16px;font-size:.74rem;color:#EDE7DA;font-weight:500;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+  .layer.l1{height:46px} .layer.l2{height:40px} .layer.l3{height:64px}
+  .layer.l4{height:38px} .layer.l5{height:58px} .layer.l6{height:52px}
+  .l1 .band{background:linear-gradient(180deg,#6b5e4c,#5a4f40)}
+  .l2 .band{background:linear-gradient(180deg,#8a8175,#736a5e)}
+  .l3 .band{background:linear-gradient(180deg,#cdbfa0,#b3a484)} /* shell midden */
+  .l4 .band{background:linear-gradient(180deg,#a8472a,#8a3a22)}  /* ochre burial */
+  .l5 .band{background:linear-gradient(180deg,#5d6a48,#4c5739)}  /* tool layer / organic */
+  .l6 .band{background:repeating-linear-gradient(135deg,#3a342c,#3a342c 7px,#322d26 7px,#322d26 14px)} /* bedrock */
+
+  /* ---- generic section ---- */
+  section{padding:88px 0}
+  .section-head{max-width:62ch;margin-bottom:52px}
+  .section-head h2{font-size:clamp(1.9rem,3.4vw,2.7rem);margin-top:14px}
+  .section-head p{color:var(--ink-soft);margin-top:16px;font-size:1.04rem}
+
+  .band-dark{background:var(--shadow);color:var(--bone)}
+  .band-dark .section-head p{color:#CFC7B9}
+  .band-dark h2,.band-dark h3{color:var(--bone)}
+
+  /* cards */
+  .grid{display:grid;gap:22px}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .card{background:var(--bone);border:1px solid var(--line);border-radius:var(--r);padding:26px;position:relative}
+  .band-dark .card{background:var(--shadow-2);border-color:var(--line-d)}
+  .card .idx{font-family:"JetBrains Mono";font-size:.7rem;color:var(--ochre);letter-spacing:.1em}
+  .card h3{font-size:1.22rem;margin:10px 0 8px}
+  .card p{font-size:.94rem;color:var(--ink-soft);margin:0}
+  .band-dark .card p{color:#C3BBAD}
+
+  /* GIS scale levels */
+  .levels{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+  .lvl{padding:30px 26px;border-right:1px solid var(--line);background:var(--bone)}
+  .lvl:last-child{border-right:0}
+  .lvl .tier{font-family:"JetBrains Mono";font-size:.68rem;letter-spacing:.14em;color:var(--ochre);text-transform:uppercase}
+  .lvl h3{font-size:1.16rem;margin:12px 0 9px}
+  .lvl p{font-size:.92rem;color:var(--ink-soft);margin:0}
+  .lvl .zoom{font-family:"JetBrains Mono";font-size:.66rem;color:var(--ash);margin-top:16px;display:block}
+
+  /* security two-tier */
+  .tiers{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .tier-card{border-radius:var(--r);padding:30px;border:1px solid var(--line)}
+  .tier-pub{background:var(--bone)}
+  .tier-int{background:var(--shadow-2);color:var(--bone);border-color:var(--line-d)}
+  .tier-card .tag{display:inline-flex;align-items:center;gap:8px;font-family:"JetBrains Mono";font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:5px 11px;border-radius:100px;margin-bottom:16px}
+  .tier-pub .tag{background:rgba(110,122,85,.16);color:var(--lichen)}
+  .tier-int .tag{background:rgba(168,71,42,.22);color:var(--ochre-soft)}
+  .tier-card ul{margin:10px 0 0;padding-left:18px;font-size:.94rem}
+  .tier-card li{margin-bottom:7px}
+  .tier-int p,.tier-int li{color:#CFC7B9}
+  .lock{font-size:.8rem}
+
+  /* ---- catalogue ---- */
+  .controls{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:26px}
+  .search{flex:1;min-width:220px;position:relative}
+  .search input{width:100%;padding:13px 16px 13px 42px;border:1px solid var(--line);border-radius:100px;background:var(--bone-2);font-family:inherit;font-size:.95rem;color:var(--ink)}
+  .search input:focus{outline:2px solid var(--ochre);outline-offset:1px}
+  .search svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);opacity:.5}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{font-family:"Be Vietnam Pro";font-size:.8rem;font-weight:500;padding:8px 14px;border-radius:100px;border:1px solid var(--line);background:transparent;color:var(--ink-soft);cursor:pointer;transition:all .18s}
+  .chip:hover{border-color:var(--ochre)}
+  .chip[aria-pressed="true"]{background:var(--ochre);border-color:var(--ochre);color:#fff}
+  .chip:focus-visible{outline:2px solid var(--ochre);outline-offset:2px}
+
+  .cave-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .cave{background:var(--bone);border:1px solid var(--line);border-radius:var(--r);padding:22px;cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s;text-align:left;font-family:inherit;color:inherit;display:flex;flex-direction:column;gap:10px}
+  .cave:hover{transform:translateY(-3px);box-shadow:0 12px 30px -16px rgba(39,32,26,.4);border-color:var(--ash-2)}
+  .cave:focus-visible{outline:2px solid var(--ochre);outline-offset:2px}
+  .cave .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .cave .code{font-family:"JetBrains Mono";font-size:.66rem;color:var(--ash);letter-spacing:.06em}
+  .cave h3{font-size:1.16rem;margin:2px 0 0}
+  .cave .loc{font-size:.82rem;color:var(--ink-soft);display:flex;align-items:center;gap:6px}
+  .pill{font-size:.66rem;font-family:"JetBrains Mono";letter-spacing:.06em;padding:4px 9px;border-radius:100px;white-space:nowrap;font-weight:500}
+  .pill.special{background:rgba(168,71,42,.14);color:var(--ochre)}
+  .pill.national{background:rgba(110,122,85,.16);color:var(--lichen)}
+  .pill.new{background:rgba(138,129,117,.18);color:var(--ash)}
+  .cave .feats{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+  .feat{font-size:.7rem;color:var(--ink-soft);background:rgba(39,32,26,.05);padding:3px 8px;border-radius:6px}
+  .cave .add{margin-top:10px;font-family:"JetBrains Mono";font-size:.68rem;letter-spacing:.08em;color:var(--ochre);background:none;border:1px dashed var(--ash-2);border-radius:8px;padding:7px;cursor:pointer;text-transform:uppercase;transition:all .15s}
+  .cave .add:hover{background:rgba(168,71,42,.08);border-style:solid;border-color:var(--ochre)}
+  .cave .add[data-in="1"]{background:var(--lichen);color:#fff;border-color:var(--lichen);border-style:solid}
+  .empty{grid-column:1/-1;text-align:center;color:var(--ink-soft);padding:40px;font-size:.95rem}
+
+  /* compare tray + table */
+  .compare-bar{position:sticky;bottom:0;z-index:30;margin-top:30px}
+  .compare-inner{background:var(--shadow);color:var(--bone);border-radius:var(--r);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:0 18px 40px -18px rgba(0,0,0,.6);flex-wrap:wrap}
+  .compare-inner .picked{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .ptag{background:var(--shadow-2);border:1px solid var(--line-d);border-radius:100px;padding:6px 12px;font-size:.8rem;display:flex;align-items:center;gap:8px}
+  .ptag button{background:none;border:0;color:var(--ash-2);cursor:pointer;font-size:1rem;line-height:1;padding:0}
+  .ptag button:hover{color:var(--ochre-soft)}
+  .btn{font-family:"Be Vietnam Pro";font-weight:600;font-size:.85rem;padding:11px 20px;border-radius:100px;border:0;cursor:pointer;background:var(--ochre);color:#fff;transition:background .18s}
+  .btn:hover{background:#8a3a22}
+  .btn:disabled{background:var(--ash);cursor:not-allowed;opacity:.6}
+  .btn.ghost{background:transparent;border:1px solid var(--line-d);color:var(--bone)}
+
+  .cmp-table-wrap{margin-top:24px;overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);display:none}
+  table.cmp{width:100%;border-collapse:collapse;min-width:520px;background:var(--bone)}
+  table.cmp th,table.cmp td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--line);font-size:.9rem}
+  table.cmp thead th{font-family:"Fraunces";font-size:1.02rem;font-weight:600;background:var(--bone-2)}
+  table.cmp tbody th{font-weight:500;color:var(--ink-soft);font-family:"Be Vietnam Pro";font-size:.84rem}
+  table.cmp .yes{color:var(--lichen);font-weight:700}
+  table.cmp .no{color:var(--ash-2)}
+  table.cmp tr:last-child td,table.cmp tr:last-child th{border-bottom:0}
+
+  /* accordion */
+  .acc{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--bone)}
+  .acc + .acc{margin-top:12px}
+  .acc summary{padding:20px 24px;cursor:pointer;font-family:"Fraunces";font-weight:600;font-size:1.1rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .acc summary::-webkit-details-marker{display:none}
+  .acc summary:focus-visible{outline:2px solid var(--ochre);outline-offset:-2px}
+  .acc summary .plus{flex:none;width:22px;height:22px;position:relative;transition:transform .25s}
+  .acc summary .plus::before,.acc summary .plus::after{content:"";position:absolute;background:var(--ochre);border-radius:2px}
+  .acc summary .plus::before{top:10px;left:2px;right:2px;height:2px}
+  .acc summary .plus::after{left:10px;top:2px;bottom:2px;width:2px}
+  .acc[open] summary .plus{transform:rotate(135deg)}
+  .acc .body{padding:0 24px 22px;color:var(--ink-soft);font-size:.96rem}
+  .acc .body p{margin:0}
+
+  /* education topic grid */
+  .topics{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .topic{border-left:3px solid var(--ochre);padding:18px 22px;background:var(--bone);border-radius:0 var(--r) var(--r) 0}
+  .topic h4{font-size:1.08rem;margin-bottom:6px}
+  .topic p{font-size:.92rem;color:var(--ink-soft);margin:0}
+
+  /* conservation */
+  .rules{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .rule{display:flex;gap:14px;align-items:flex-start;background:var(--bone);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px}
+  .rule .x{flex:none;width:30px;height:30px;border-radius:8px;background:rgba(168,71,42,.12);color:var(--ochre);display:grid;place-items:center;font-weight:700;font-family:"Fraunces"}
+  .rule p{margin:0;font-size:.93rem}
+
+  /* citizen science callout */
+  .citizen{background:linear-gradient(135deg,var(--shadow),var(--shadow-2));color:var(--bone);border-radius:var(--r);padding:46px;display:grid;grid-template-columns:1.2fr .8fr;gap:36px;align-items:center}
+  .citizen h3{font-size:1.7rem;color:var(--bone)}
+  .citizen p{color:#CFC7B9;margin-top:12px}
+  .flow{display:flex;flex-direction:column;gap:10px}
+  .step{display:flex;align-items:center;gap:14px;background:rgba(244,239,228,.06);border:1px solid var(--line-d);border-radius:10px;padding:13px 16px}
+  .step .n{font-family:"JetBrains Mono";font-size:.8rem;color:var(--ochre-soft);flex:none}
+  .step span{font-size:.9rem;color:#EDE7DA}
+
+  /* footer */
+  footer{background:var(--shadow);color:var(--bone);padding:64px 0 38px}
+  footer .cols{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:36px;margin-bottom:40px}
+  footer h4{font-family:"Fraunces";font-size:1.2rem;margin-bottom:8px}
+  footer p,footer a{color:#B7AEA0;font-size:.9rem;text-decoration:none}
+  footer a:hover{color:var(--ochre-soft)}
+  footer .fl{display:block;margin-bottom:8px}
+  .foot-note{border-top:1px solid var(--line-d);padding-top:22px;font-size:.78rem;color:#8a8175;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+  @media(max-width:880px){
+    .hero .wrap{grid-template-columns:1fr;gap:36px;padding-top:56px;padding-bottom:56px}
+    .g3,.g2,.cave-grid,.levels,.tiers,.topics,.rules,.citizen{grid-template-columns:1fr}
+    .levels .lvl{border-right:0;border-bottom:1px solid var(--line)}
+    .levels .lvl:last-child{border-bottom:0}
+    nav.links{display:none}
+    nav.links.open{display:flex;position:absolute;top:62px;left:0;right:0;flex-direction:column;background:var(--shadow);padding:18px 28px;gap:16px;border-bottom:1px solid var(--line-d)}
+    .nav-toggle{display:grid;place-items:center;background:none;border:1px solid var(--line-d);border-radius:8px;width:40px;height:40px;cursor:pointer}
+    .nav-toggle span,.nav-toggle span::before,.nav-toggle span::after{content:"";display:block;width:18px;height:2px;background:var(--bone);position:relative}
+    .nav-toggle span::before{position:absolute;top:-6px}.nav-toggle span::after{position:absolute;top:6px}
+    section{padding:60px 0}
+    .citizen{padding:30px}
+  }
+  @media(max-width:560px){
+    body{font-size:16px}
+    .hero-stats{gap:20px}
+    .wrap{padding:0 20px}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span> ArchaeoNova</div>
+    <nav class="links" id="navlinks">
+      <a href="#gioi-thieu">Giới thiệu</a>
+      <a href="#atlas">Atlas hang động</a>
+      <a href="#danh-muc">Danh mục hang</a>
+      <a href="#so-sanh">So sánh</a>
+      <a href="#giao-duc">Giáo dục</a>
+      <a href="#dong-gop">Đóng góp</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Mở menu"><span></span></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" style="padding:0">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow on-dark">Digital Cave Atlas · Văn hóa Hòa Bình</span>
+      <h1>Atlas Hang động <em>Tiền sử</em> Hòa Bình</h1>
+      <p class="lede">Một nền tảng số hóa di sản khảo cổ — đọc lại 30.000 năm lịch sử qua từng lớp địa tầng, phục vụ nghiên cứu và mở ra cho cộng đồng.</p>
+      <p class="sub-en mono">Digital Cave Atlas for Prehistoric Research</p>
+      <div class="hero-stats">
+        <div class="s"><b>72</b><span>DI CHỈ ĐÃ CÔNG BỐ</span></div>
+        <div class="s"><b>30–10K</b><span>NĂM TRƯỚC (BP)</span></div>
+        <div class="s"><b>2</b><span>DI TÍCH QG ĐẶC BIỆT</span></div>
+      </div>
+    </div>
+    <div class="trench" aria-hidden="true">
+      <div class="scap"><span>MẶT CẮT ĐỊA TẦNG</span><span>SÂU ↓ THỜI GIAN</span></div>
+      <div class="layer l1"><span class="depth">0–15</span><span class="band"></span><span class="lbl">Lớp mặt</span></div>
+      <div class="layer l2"><span class="depth">15–40</span><span class="band"></span><span class="lbl">Tro bếp</span></div>
+      <div class="layer l3"><span class="depth">40–90</span><span class="band"></span><span class="lbl">Tầng vỏ ốc</span></div>
+      <div class="layer l4"><span class="depth">90–120</span><span class="band"></span><span class="lbl">Mộ táng · thổ hoàng</span></div>
+      <div class="layer l5"><span class="depth">120–175</span><span class="band"></span><span class="lbl">Tầng công cụ đá</span></div>
+      <div class="layer l6"><span class="depth">175+</span><span class="band"></span><span class="lbl">Nền đá gốc</span></div>
+    </div>
+  </div>
+</section>
+<div class="strata"><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- GIỚI THIỆU -->
+<section id="gioi-thieu">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Về dự án</span>
+      <h2>Cầu nối giữa nghiên cứu khoa học và cộng đồng</h2>
+      <p>Bên cạnh vai trò là cơ sở hỗ trợ nghiên cứu các hang động tiền sử của Văn hóa Hòa Bình, Atlas còn là một công cụ giáo dục cộng đồng — góp phần phát huy và bảo vệ giá trị di sản thông qua truyền thông khoa học. Đây là giá trị mà dự án của đội ArchaeoNova và cuộc thi FLL cùng hướng tới.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card reveal"><span class="idx">MỤC TIÊU 01</span><h3>Hỗ trợ nghiên cứu</h3><p>Số hóa và chuẩn hóa dữ liệu không gian, hiện vật và niên đại của từng di chỉ để các nhà khảo cổ tra cứu, đối chiếu và khảo sát từ xa.</p></div>
+      <div class="card reveal"><span class="idx">MỤC TIÊU 02</span><h3>Giáo dục cộng đồng</h3><p>Diễn giải tri thức chuyên ngành thành nội dung dễ tiếp cận, nâng cao hiểu biết và ý thức bảo tồn di sản trong cộng đồng.</p></div>
+      <div class="card reveal"><span class="idx">MỤC TIÊU 03</span><h3>Robot khảo sát hang</h3><p>Ứng dụng robot để thám sát, ghi hình và kiểm chứng các phát hiện trong những lòng hang khó tiếp cận — giảm rủi ro cho con người và hiện vật.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="strata"><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- PHẦN ATLAS -->
+<section id="atlas" class="band-dark">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow on-dark">A · Phần Atlas hang động</span>
+      <h2>Bốn lớp dữ liệu của một di chỉ</h2>
+      <p>Mỗi hang động được mô tả từ cảnh quan bao quanh xuống đến từng centimet địa tầng — một hệ thống dữ liệu không gian, thuộc tính, hình ảnh 3D và phân quyền bảo mật.</p>
+    </div>
+
+    <!-- GIS layers -->
+    <span class="eyebrow on-dark" style="display:block;margin-bottom:16px">1 · Mô hình dữ liệu không gian (GIS)</span>
+    <div class="levels reveal">
+      <div class="lvl">
+        <span class="tier">Cấp vĩ mô</span>
+        <h3>Cảnh quan xung quanh</h3>
+        <p>Bản đồ địa hình (DEM), hệ thống sông suối cổ, các nguồn đá nguyên liệu (đá cuội) và dấu vết thảm thực vật tiền sử.</p>
+        <span class="zoom">ZOOM ── landscape</span>
+      </div>
+      <div class="lvl">
+        <span class="tier">Cấp vi mô</span>
+        <h3>Cấu trúc hang</h3>
+        <p>Ranh giới vòm trần, lòng hang và hướng cửa hang — người Hòa Bình thường chọn hang quay về hướng Đông / Đông Nam để đón ánh sáng.</p>
+        <span class="zoom">ZOOM ── cave</span>
+      </div>
+      <div class="lvl">
+        <span class="tier">Cấp hố quật</span>
+        <h3>Lưới khai quật</h3>
+        <p>Lưới tọa độ khảo cổ (ô 1m × 1m) định vị chính xác từng hiện vật theo chiều ngang (X, Y) và chiều sâu địa tầng (Z).</p>
+        <span class="zoom">ZOOM ── grid 1×1m</span>
+      </div>
+    </div>
+
+    <!-- attribute db -->
+    <span class="eyebrow on-dark" style="display:block;margin:54px 0 16px">2 · Cơ sở dữ liệu thuộc tính</span>
+    <div class="grid g2">
+      <div class="card reveal"><span class="idx">DI TÍCH</span><h3>Thuộc tính hang động</h3><p>Mã định danh duy nhất (vd: HB-XT — Hang Xóm Trại), tình trạng pháp lý xếp hạng và lịch sử khai quật qua từng đợt thám sát.</p></div>
+      <div class="card reveal"><span class="idx">HIỆN VẬT</span><h3>Thuộc tính hiện vật</h3><p>Công cụ đá (kiểu dáng, kỹ thuật chế tác), di cốt hữu cơ (xương, vỏ nhuyễn thể, hạt quả) và mộ táng (tư thế, hướng đầu, đồ tùy táng).</p></div>
+      <div class="card reveal"><span class="idx">NIÊN ĐẠI</span><h3>Khung niên đại</h3><p>Niên đại tuyệt đối từ C14 / AMS trên mẫu than tro, vỏ ốc; niên đại tương đối theo tổ hợp hiện vật đặc trưng các giai đoạn Sớm – Giữa – Muộn.</p></div>
+      <div class="card reveal"><span class="idx">BẢO TỒN</span><h3>Hiện trạng</h3><p>Theo dõi tình trạng từng di chỉ: nguyên vẹn, bị xâm hại, áp lực du lịch hay đang ở mức nguy cơ — kèm tài liệu, bài báo, ảnh và video liên quan.</p></div>
+    </div>
+
+    <!-- 3D + security -->
+    <span class="eyebrow on-dark" style="display:block;margin:54px 0 16px">3 · Số hóa 3D &amp; trực quan hóa địa tầng</span>
+    <div class="grid g2" style="margin-bottom:54px">
+      <div class="card reveal"><h3>Mặt cắt địa tầng (Stratigraphy)</h3><p>Tái hiện các lớp đất bằng mô hình vector 2D/3D — màu sắc, độ chặt và thành phần từng lớp (độ dày tầng vỏ ốc, độ dày lớp tro bếp…) đúng như mặt cắt bên cạnh tiêu đề trang.</p></div>
+      <div class="card reveal"><h3>Mô hình 3D lòng hang (LiDAR)</h3><p>Quét LiDAR di động giữ lại nguyên trạng lòng hang, cho phép nhà nghiên cứu thăm dò và khảo sát mà không cần đến thực địa.</p></div>
+    </div>
+
+    <span class="eyebrow on-dark" style="display:block;margin-bottom:16px">4 · Phân quyền &amp; bảo mật dữ liệu</span>
+    <p style="color:#CFC7B9;max-width:60ch;margin-bottom:24px">Văn hóa Hòa Bình là mục tiêu của nạn buôn bán cổ vật. Atlas bắt buộc chia hai tầng dữ liệu để vừa phổ biến tri thức, vừa bảo vệ vị trí di chỉ.</p>
+    <div class="tiers reveal">
+      <div class="tier-card tier-pub">
+        <span class="tag">● Tầng công khai</span>
+        <p style="margin-top:0;color:var(--ink-soft)">Mở cho mọi người dùng:</p>
+        <ul>
+          <li>Vị trí tương đối ở cấp huyện / xã</li>
+          <li>Hình ảnh hiện vật tiêu biểu đã đưa về bảo tàng</li>
+          <li>Thông tin lịch sử và bối cảnh chung</li>
+        </ul>
+      </div>
+      <div class="tier-card tier-int">
+        <span class="tag">🔒 Tầng chuyên gia</span>
+        <p style="margin-top:0">Yêu cầu tài khoản do cơ quan quản lý cấp:</p>
+        <ul>
+          <li>Tọa độ GPS chính xác đến hàng mét</li>
+          <li>Bản vẽ kỹ thuật hố quật &amp; sơ đồ mộ táng</li>
+          <li>Hồ sơ hiện vật chưa công bố</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="strata"><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- DANH MỤC HANG -->
+<section id="danh-muc">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">5 · Hệ thống di chỉ</span>
+      <h2>Danh mục hang động</h2>
+      <p>Tra cứu các di chỉ đã được phát hiện và công bố. Lọc theo huyện, cấp xếp hạng hoặc đặc điểm khảo cổ. Chọn “+ so sánh” trên mỗi hang để đối chiếu trực tiếp. <strong>Vị trí chỉ hiển thị ở cấp xã/huyện theo nguyên tắc bảo mật di sản.</strong></p>
+    </div>
+
+    <div class="controls">
+      <div class="search">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="caveSearch" type="text" placeholder="Tìm theo tên hang hoặc xã…" aria-label="Tìm hang động">
+      </div>
+    </div>
+    <div class="chips" id="filterChips" style="margin-bottom:26px" role="group" aria-label="Bộ lọc">
+      <button class="chip" data-type="level" data-val="special" aria-pressed="false">QG đặc biệt</button>
+      <button class="chip" data-type="level" data-val="national" aria-pressed="false">Cấp quốc gia</button>
+      <button class="chip" data-type="level" data-val="new" aria-pressed="false">Mới phát hiện</button>
+      <button class="chip" data-type="feat" data-val="mo-tang" aria-pressed="false">Mộ táng</button>
+      <button class="chip" data-type="feat" data-val="cong-cu-da" aria-pressed="false">Công cụ đá</button>
+      <button class="chip" data-type="feat" data-val="tro-bep" aria-pressed="false">Tro bếp</button>
+      <button class="chip" data-type="feat" data-val="vo-oc" aria-pressed="false">Vỏ ốc</button>
+      <button class="chip" data-type="feat" data-val="xuong-che-tac" aria-pressed="false">Xưởng chế tác</button>
+    </div>
+
+    <div class="cave-grid" id="caveGrid"></div>
+
+    <div class="compare-bar" id="compareBar" style="display:none">
+      <div class="compare-inner">
+        <div class="picked" id="pickedList"></div>
+        <div style="display:flex;gap:10px">
+          <button class="btn ghost" id="clearCompare">Xóa</button>
+          <button class="btn" id="doCompare">So sánh →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SO SÁNH -->
+<section id="so-sanh" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">7 · Công cụ so sánh</span>
+      <h2>Đối chiếu các hang</h2>
+      <p>Một bảng so sánh nhanh các tiêu chí khảo cổ giữa những hang bạn đã chọn ở danh mục phía trên — hữu ích cho nghiên cứu và giảng dạy.</p>
+    </div>
+    <div class="cmp-table-wrap" id="cmpWrap">
+      <table class="cmp" id="cmpTable"></table>
+    </div>
+    <p id="cmpEmpty" class="empty" style="border:1px dashed var(--ash-2);border-radius:var(--r)">Chưa có hang nào được chọn. Hãy bấm “+ so sánh” trên các thẻ hang ở danh mục bên trên.</p>
+  </div>
+</section>
+
+<div class="strata"><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- GIÁO DỤC -->
+<section id="giao-duc" class="band-dark">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow on-dark">B · Giáo dục cộng đồng</span>
+      <h2>Đưa di sản đến gần hơn</h2>
+      <p>Ba mục tiêu: phổ biến tri thức, nâng cao nhận thức bảo tồn, và kết nối cộng đồng với nghiên cứu khảo cổ.</p>
+    </div>
+
+    <span class="eyebrow on-dark" style="display:block;margin-bottom:18px">Kiến thức về người tiền sử Hòa Bình</span>
+    <div class="topics reveal" style="margin-bottom:54px">
+      <div class="topic"><h4>Người Hòa Bình sống cách đây bao lâu?</h4><p>Văn hóa Hòa Bình kéo dài khoảng từ 30.000 đến 10.000 năm trước — một trong những nền văn hóa tiền sử tiêu biểu nhất Đông Nam Á.</p></div>
+      <div class="topic"><h4>Vì sao họ sống trong hang động?</h4><p>Hang và mái đá vôi cho chỗ trú an toàn, gần nguồn nước và nguyên liệu đá; cửa hang thường quay hướng Đông/Đông Nam để đón sáng.</p></div>
+      <div class="topic"><h4>Họ săn bắt và hái lượm thế nào?</h4><p>Dấu tích xương thú, vỏ ốc suối và hạt quả khô trong các tầng văn hóa cho thấy một đời sống săn bắt – hái lượm gắn chặt với rừng và sông suối.</p></div>
+      <div class="topic"><h4>Họ tạo công cụ đá ra sao?</h4><p>Kỹ nghệ ghè đẽo đá cuội đặc trưng: rìu ngắn, công cụ hình đĩa, công cụ hạnh nhân — về sau xuất hiện dấu vết mài lưỡi.</p></div>
+    </div>
+
+    <div class="grid g2" style="align-items:start">
+      <div>
+        <span class="eyebrow on-dark" style="display:block;margin-bottom:18px">Giải thích thuật ngữ khảo cổ</span>
+        <details class="acc"><summary>Văn hóa Hòa Bình là gì?<span class="plus"></span></summary><div class="body"><p>Một nền văn hóa khảo cổ thời đại Đá, được nhà khảo cổ Madeleine Colani định danh từ thập niên 1920, đặc trưng bởi công cụ đá cuội ghè đẽo và đời sống trong hang đá vôi.</p></div></details>
+        <details class="acc"><summary>Địa tầng là gì?<span class="plus"></span></summary><div class="body"><p>Là các lớp đất tích tụ chồng lên nhau theo thời gian. Lớp càng sâu thường càng cổ — đọc địa tầng là đọc trình tự thời gian của di chỉ.</p></div></details>
+        <details class="acc"><summary>Hố khai quật là gì?<span class="plus"></span></summary><div class="body"><p>Khu vực được đào theo lưới tọa độ chuẩn (thường ô 1m×1m) để ghi lại chính xác vị trí ba chiều của mỗi hiện vật khi xuất lộ.</p></div></details>
+        <details class="acc"><summary>Niên đại C14 là gì?<span class="plus"></span></summary><div class="body"><p>Phương pháp xác định tuổi tuyệt đối dựa trên sự phân rã của đồng vị carbon-14 trong vật chất hữu cơ như than tro hoặc vỏ ốc.</p></div></details>
+        <details class="acc"><summary>Công cụ ghè đẽo là gì?<span class="plus"></span></summary><div class="body"><p>Công cụ đá được tạo hình bằng cách ghè các mảnh tước khỏi hòn cuội — kỹ thuật chế tác nền tảng của Văn hóa Hòa Bình.</p></div></details>
+      </div>
+      <div>
+        <span class="eyebrow on-dark" style="display:block;margin-bottom:18px">Hỏi &amp; Đáp · Ý thức bảo tồn</span>
+        <details class="acc"><summary>Có được tự ý vào hang không?<span class="plus"></span></summary><div class="body"><p>Không. Nhiều hang là di tích được xếp hạng; tự ý ra vào có thể làm xáo trộn địa tầng và gây hư hại hiện vật chưa khai quật.</p></div></details>
+        <details class="acc"><summary>Vì sao không được lấy nhũ đá?<span class="plus"></span></summary><div class="body"><p>Nhũ đá hình thành qua hàng nghìn năm và là một phần của cảnh quan di sản; lấy đi là phá hủy vĩnh viễn một phần của hang.</p></div></details>
+        <details class="acc"><summary>Có thể đào tìm hóa thạch không?<span class="plus"></span></summary><div class="body"><p>Không. Việc đào bới không phép phá vỡ ngữ cảnh khảo cổ — thông tin về vị trí và lớp đất của hiện vật quý hơn bản thân hiện vật.</p></div></details>
+        <details class="acc"><summary>Người tiền sử có sống cùng khủng long không?<span class="plus"></span></summary><div class="body"><p>Không. Khủng long tuyệt chủng khoảng 66 triệu năm trước, rất lâu trước khi con người xuất hiện — hai thời đại cách nhau hàng chục triệu năm.</p></div></details>
+        <details class="acc"><summary>Làm sao báo tin khi phát hiện hiện vật?<span class="plus"></span></summary><div class="body"><p>Giữ nguyên hiện trạng, không tự ý di dời, ghi lại vị trí và hình ảnh rồi gửi qua mục “Đóng góp dữ liệu cộng đồng” bên dưới.</p></div></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="strata"><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- BẢO TỒN -->
+<section id="bao-ton">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Góc bảo tồn di sản</span>
+      <h2>Cùng giữ gìn hang động</h2>
+      <p>Những nguyên tắc đơn giản giúp mỗi người trở thành một người bảo vệ di sản.</p>
+    </div>
+    <div class="rules reveal">
+      <div class="rule"><span class="x">✕</span><p>Không khắc, vẽ lên vách hang</p></div>
+      <div class="rule"><span class="x">✕</span><p>Không lấy hiện vật hay nhũ đá</p></div>
+      <div class="rule"><span class="x">✕</span><p>Không đốt lửa trong hang</p></div>
+      <div class="rule"><span class="x">✕</span><p>Không xả rác, giữ nguyên hiện trạng</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ĐÓNG GÓP -->
+<section id="dong-gop" style="padding-top:0">
+  <div class="wrap">
+    <div class="citizen reveal">
+      <div>
+        <span class="eyebrow on-dark">Khoa học công dân · Citizen Science</span>
+        <h3>Phát hiện một hang động hay dấu tích?</h3>
+        <p>Khi người dân phát hiện một hang hoặc dấu tích khảo cổ, bạn có thể gửi vị trí, hình ảnh và mô tả. Robot khảo sát của đội sẽ kiểm chứng — đúng theo xu hướng khoa học công dân mà nhiều bảo tàng và dự án di sản trên thế giới đang áp dụng.</p>
+        <button class="btn" style="margin-top:18px" onclick="alert('Biểu mẫu gửi thông tin sẽ được kết nối tại đây.')">Gửi thông tin phát hiện</button>
+      </div>
+      <div class="flow">
+        <div class="step"><span class="n">01</span><span>Ghi lại vị trí &amp; hình ảnh, giữ nguyên hiện trạng</span></div>
+        <div class="step"><span class="n">02</span><span>Gửi mô tả qua biểu mẫu</span></div>
+        <div class="step"><span class="n">03</span><span>Robot &amp; chuyên gia kiểm chứng</span></div>
+        <div class="step"><span class="n">04</span><span>Bổ sung vào danh mục khảo sát</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="strata"><i></i><i></i><i></i><i></i><i></i></div>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>Atlas Hang động Tiền sử Hòa Bình</h4>
+        <p>Nền tảng số hóa di sản khảo cổ Văn hóa Hòa Bình — phục vụ nghiên cứu và giáo dục cộng đồng. Một dự án của đội ArchaeoNova cho cuộc thi FIRST LEGO League.</p>
+      </div>
+      <div>
+        <h4>Khám phá</h4>
+        <a class="fl" href="#atlas">Phần Atlas hang động</a>
+        <a class="fl" href="#danh-muc">Danh mục di chỉ</a>
+        <a class="fl" href="#so-sanh">Công cụ so sánh</a>
+        <a class="fl" href="#giao-duc">Giáo dục cộng đồng</a>
+      </div>
+      <div>
+        <h4>Tham gia</h4>
+        <a class="fl" href="#dong-gop">Đóng góp dữ liệu</a>
+        <a class="fl" href="#bao-ton">Góc bảo tồn</a>
+      </div>
+    </div>
+    <div class="foot-note">
+      <span class="mono">ARCHAEONOVA · FLL</span>
+      <span>Vị trí di chỉ hiển thị ở cấp xã/huyện nhằm bảo vệ di sản khỏi nạn xâm hại.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const FEAT_LABEL={
+  'mo-tang':'Mộ táng','cong-cu-da':'Công cụ đá','tro-bep':'Tro bếp','vo-oc':'Vỏ ốc suối',
+  'di-cot':'Di cốt động vật','xuong-che-tac':'Xưởng chế tác','cu-tru':'Di chỉ cư trú',
+  'danh-thang':'Danh thắng','mai-da':'Mái đá'
+};
+const LEVEL_LABEL={special:'QG đặc biệt',national:'Cấp quốc gia',new:'Mới phát hiện'};
+
+const caves=[
+ {id:'HB-XT',name:'Hang Xóm Trại',commune:'Xã Tân Lập',district:'Lạc Sơn',level:'special',period:'~17.000–10.000 BP',entrance:null,features:['mo-tang','cong-cu-da','tro-bep','vo-oc','di-cot'],excavation:null,desc:'Di chỉ tiêu biểu nhất Việt Nam và Đông Nam Á — nơi phát hiện tro bếp, vỏ ốc, hạt quả và một bộ hài cốt người tiền sử còn gần như nguyên vẹn.'},
+ {id:'HB-LV',name:'Mái đá Làng Vành',commune:'Xã Yên Phú',district:'Lạc Sơn',level:'special',period:'~17.000–10.000 BP',entrance:null,features:['cong-cu-da'],excavation:null,desc:'Lưu giữ khối lượng lớn công cụ đá ghè đẽo đặc trưng cùng các tầng khảo cổ còn nguyên trạng.'},
+ {id:'HB-CHO',name:'Hang Chổ',commune:'Xã Cao Răm',district:'Lương Sơn',level:'national',period:null,entrance:null,features:['cong-cu-da','di-cot'],excavation:null,desc:'Nơi cư trú lâu đời với hàng nghìn công cụ hình đĩa, công cụ chặt và di cốt xương động vật.'},
+ {id:'HB-TAM',name:'Hang Tằm',commune:'Xã Lâm Sơn',district:'Lương Sơn',level:'national',period:null,entrance:null,features:['cong-cu-da','xuong-che-tac'],excavation:null,desc:'Di chỉ xưởng chế tác đá thời tiền sử.'},
+ {id:'HB-MUOI',name:'Hang Muối',commune:'TT Mãn Đức',district:'Tân Lạc',level:'national',period:'~10.000–7.000 BP',entrance:'Đông Nam',features:['vo-oc','cong-cu-da'],excavation:null,desc:'Mái đá cao rộng, cửa hang hướng Đông Nam, chứa tầng văn hóa ốc suối dày đặc.'},
+ {id:'HB-BUNG',name:'Hang Bưng',commune:'Xã Suối Hoa',district:'Tân Lạc',level:'national',period:null,entrance:null,features:['tro-bep','cong-cu-da'],excavation:null,desc:'Lưu giữ nhiều dấu vết tro bếp tiền sử gắn với kỹ nghệ ghè cuội.'},
+ {id:'HB-KHOAI',name:'Hang Khoài',commune:'Xã Xăm Khòe',district:'Mai Châu',level:'national',period:null,entrance:null,features:['cong-cu-da'],excavation:null,desc:'Tọa lạc trong thung lũng vùng cao, cung cấp nhiều hiện vật đá cuội mài lưỡi.'},
+ {id:'HB-LANG',name:'Hang Láng',commune:'TT Mai Châu',district:'Mai Châu',level:'national',period:null,entrance:null,features:['cu-tru'],excavation:null,desc:'Di chỉ cư trú trong hệ núi đá vôi thung lũng Mai Châu.'},
+ {id:'HB-DT',name:'Hang Đồng Thớt',commune:'TT Thanh Hà',district:'Lạc Thủy',level:'national',period:null,entrance:null,features:['cong-cu-da'],excavation:'M. Colani, 1926',desc:'Di chỉ được nhà khảo cổ người Pháp Madeleine Colani khai quật từ năm 1926.'},
+ {id:'HB-DTIEN',name:'Động Tiên',commune:'Xã An Phú',district:'Lạc Thủy',level:'national',period:null,entrance:null,features:['danh-thang'],excavation:null,desc:'Di tích phức hợp, vừa mang giá trị danh thắng vừa là mái đá khảo cổ.'},
+ {id:'HB-HIEM',name:'Hang Hiêm',commune:'Xã Bình Hẻm',district:'Lạc Sơn',level:'new',period:null,entrance:null,features:['cong-cu-da'],excavation:'Phát hiện sau 2020',desc:'Hang trần cao, lòng rộng; phát hiện tổ hợp công cụ cuội ghè đẽo một mặt còn nguyên bản.'},
+ {id:'HB-LL',name:'Cụm hang xã Lạc Lương',commune:'Xã Lạc Lương',district:'Yên Thủy',level:'new',period:null,entrance:null,features:['mai-da'],excavation:'Phát hiện sau 2020',desc:'Hệ thống mái đá ven thung lũng đang trong danh mục khảo sát.'},
+ {id:'HB-YT',name:'Cụm hang xã Yên Trị',commune:'Xã Yên Trị',district:'Yên Thủy',level:'new',period:null,entrance:null,features:['mai-da'],excavation:'Phát hiện sau 2020',desc:'Các điểm thám sát dọc rìa núi đá vôi tiếp giáp Ninh Bình.'}
+];
+
+const grid=document.getElementById('caveGrid');
+const search=document.getElementById('caveSearch');
+const chips=[...document.querySelectorAll('#filterChips .chip')];
+let active={level:new Set(),feat:new Set()};
+let picked=[];
+
+function matches(c){
+  const q=search.value.trim().toLowerCase();
+  if(q && !(c.name.toLowerCase().includes(q)||c.commune.toLowerCase().includes(q)||c.district.toLowerCase().includes(q))) return false;
+  if(active.level.size && !active.level.has(c.level)) return false;
+  for(const f of active.feat){ if(!c.features.includes(f)) return false; }
+  return true;
+}
+function render(){
+  const list=caves.filter(matches);
+  grid.innerHTML='';
+  if(!list.length){ grid.innerHTML='<div class="empty">Không tìm thấy hang phù hợp. Thử bỏ bớt bộ lọc.</div>'; return; }
+  list.forEach(c=>{
+    const inC=picked.includes(c.id);
+    const el=document.createElement('div');
+    el.className='cave';el.tabIndex=0;el.setAttribute('role','button');
+    el.innerHTML=`
+      <div class="top">
+        <div><span class="code">${c.id}</span><h3>${c.name}</h3></div>
+        <span class="pill ${c.level}">${LEVEL_LABEL[c.level]}</span>
+      </div>
+      <span class="loc">📍 ${c.commune}, huyện ${c.district}</span>
+      <p style="font-size:.9rem;color:var(--ink-soft);margin:0">${c.desc}</p>
+      ${c.period?`<span class="code" style="color:var(--ochre)">⌛ ${c.period}</span>`:''}
+      <div class="feats">${c.features.map(f=>`<span class="feat">${FEAT_LABEL[f]}</span>`).join('')}</div>
+      <button class="add" data-id="${c.id}" data-in="${inC?1:0}">${inC?'✓ đã chọn so sánh':'+ so sánh'}</button>`;
+    el.querySelector('.add').addEventListener('click',e=>{e.stopPropagation();toggle(c.id);});
+    grid.appendChild(el);
+  });
+}
+function toggle(id){
+  const i=picked.indexOf(id);
+  if(i>-1)picked.splice(i,1);
+  else{ if(picked.length>=3){alert('Chọn tối đa 3 hang để so sánh.');return;} picked.push(id); }
+  render();renderBar();
+}
+function renderBar(){
+  const bar=document.getElementById('compareBar');
+  const pl=document.getElementById('pickedList');
+  if(!picked.length){bar.style.display='none';return;}
+  bar.style.display='block';
+  pl.innerHTML='<span style="font-size:.8rem;color:var(--ash-2);font-family:JetBrains Mono">ĐÃ CHỌN:</span>'+
+    picked.map(id=>{const c=caves.find(x=>x.id===id);return `<span class="ptag">${c.name}<button data-id="${id}" aria-label="Bỏ">×</button></span>`}).join('');
+  pl.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>toggle(b.dataset.id)));
+}
+const CRITERIA=[
+  ['Cấp xếp hạng',c=>LEVEL_LABEL[c.level]],
+  ['Niên đại',c=>c.period||'—'],
+  ['Hướng cửa hang',c=>c.entrance||'—'],
+  ['Mộ táng',c=>c.features.includes('mo-tang')],
+  ['Công cụ đá',c=>c.features.includes('cong-cu-da')],
+  ['Tro bếp',c=>c.features.includes('tro-bep')],
+  ['Vỏ ốc suối',c=>c.features.includes('vo-oc')],
+  ['Di cốt động vật',c=>c.features.includes('di-cot')],
+  ['Xưởng chế tác',c=>c.features.includes('xuong-che-tac')],
+  ['Lịch sử khai quật',c=>c.excavation||'—']
+];
+function doCompare(){
+  if(!picked.length)return;
+  const cs=picked.map(id=>caves.find(x=>x.id===id));
+  const t=document.getElementById('cmpTable');
+  let html='<thead><tr><th>Tiêu chí</th>'+cs.map(c=>`<th>${c.name}</th>`).join('')+'</tr></thead><tbody>';
+  CRITERIA.forEach(([label,fn])=>{
+    html+=`<tr><th>${label}</th>`+cs.map(c=>{
+      const v=fn(c);
+      if(v===true)return '<td class="yes">✓</td>';
+      if(v===false)return '<td class="no">—</td>';
+      return `<td>${v}</td>`;
+    }).join('')+'</tr>';
+  });
+  html+='</tbody>';
+  t.innerHTML=html;
+  document.getElementById('cmpWrap').style.display='block';
+  document.getElementById('cmpEmpty').style.display='none';
+  document.getElementById('so-sanh').scrollIntoView({behavior:'smooth'});
+}
+chips.forEach(ch=>ch.addEventListener('click',()=>{
+  const on=ch.getAttribute('aria-pressed')==='true';
+  ch.setAttribute('aria-pressed',String(!on));
+  active[ch.dataset.type][on?'delete':'add'](ch.dataset.val);
+  render();
+}));
+search.addEventListener('input',render);
+document.getElementById('doCompare').addEventListener('click',doCompare);
+document.getElementById('clearCompare').addEventListener('click',()=>{
+  picked=[];render();renderBar();
+  document.getElementById('cmpWrap').style.display='none';
+  document.getElementById('cmpEmpty').style.display='block';
+});
+render();
+
+// mobile nav
+document.getElementById('navToggle').addEventListener('click',()=>{
+  document.getElementById('navlinks').classList.toggle('open');
+});
+document.querySelectorAll('#navlinks a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navlinks').classList.remove('open')));
+
+// scroll reveal
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
